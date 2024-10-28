@@ -2,7 +2,13 @@ import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import express from 'express'
 import { Adapter, Database, Resource } from '@adminjs/sql'
-import { userResource } from './src/resources/users.js'
+import { 
+  adsResource,
+  favouritesResource,
+  objectsResource,
+  redactorsResource,
+  usersResource 
+} from './src/resources/index.js'
 
 const PORT = 3000
 AdminJS.registerAdapter({
@@ -12,6 +18,7 @@ AdminJS.registerAdapter({
 
 const start = async () => {
   const app = express()
+  app.use('/public', express.static('./public'));
 
   const db = await new Adapter('postgresql', {
     connectionString: 'postgres://app_user:password@localhost:5434/girls_db',
@@ -20,8 +27,28 @@ const start = async () => {
 
   const admin = new AdminJS({
     resources: [
-      userResource(db)
+      usersResource(db),
+      favouritesResource(db),
+      objectsResource(db),
+      redactorsResource(db),
+      adsResource(db),
     ],
+    branding: {
+      companyName: 'Аренда квартир и помещений',
+      softwareBrothers: false,
+      logo: 'http://localhost:3000/public/cat.jpg',
+      favicon: 'http://localhost:3000/public/cat-cute.gif',
+    },
+    locale: {
+        translations: {
+            messages: {
+                loginWelcome: 'Добро Пожаловать!' // the smaller text
+            },
+            labels: {
+                loginWelcome: 'Аренда квартир', // this could be your project name
+            },
+        }
+    },
   });
 
   const adminAuthRouter = AdminJSExpress.buildAuthenticatedRouter(admin, {
@@ -31,11 +58,11 @@ const start = async () => {
         }
         const tryUser = await db.table('users')
             .knex('users')
-            .select('pwd')
+            .select('id', 'pwd')
             .where({ email: email })
             .first();
         if (password === tryUser?.pwd) {
-            return { email }
+            return { id: tryUser?.id ?? null, email }
         } else {
             return null
         }

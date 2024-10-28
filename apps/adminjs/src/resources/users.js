@@ -3,7 +3,7 @@ import Adapter from "@adminjs/sql";
 /** 
  * @param {Adapter} db - адаптер
  */
-export const userResource = (db) => ({
+export const usersResource = (db) => ({
     resource: db.table('users'),
     options: {
         listProperties: ['name', 'email', 'phone'],
