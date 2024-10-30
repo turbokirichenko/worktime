@@ -1,0 +1,3 @@
+.env
+db/
+apps/*/node_modules/
