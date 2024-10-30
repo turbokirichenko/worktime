@@ -6,6 +6,8 @@ import Adapter from "@adminjs/sql";
 export const articlesResource = (__adapter) => ({
 	resource: __adapter.table('articles'),
 	options: {
+		filterProperties: ['barcode', 'article_type', 'weight', 'product_id', 'exprired_at'],
+		listProperties: ['barcode', 'article_type', 'weight', 'product_id', 'exprired_at'],
 		properties: {
 			id: {
 				isVisible: false,

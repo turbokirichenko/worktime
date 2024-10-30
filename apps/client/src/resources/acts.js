@@ -6,7 +6,7 @@ import Adapter from "@adminjs/sql";
 export const actsResource = (__adapter) => ({
 	resource: __adapter.table('acts'),
 	options: {
-		editProperties: ['name', 'created_at'],
+		editProperties: ['name', 'vendor_id', 'created_at'],
 		properties: {
 			id: {
 				isVisible: false,
