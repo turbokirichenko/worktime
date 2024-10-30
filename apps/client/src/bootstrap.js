@@ -34,18 +34,18 @@ export const bootstrap = async () => {
   }).init()
 
   const admin = new AdminJS({
-	//defaultTheme: dark.id,
-	//availableThemes: [dark, light, noSidebar],
-	dashboard: {
-		component: Components.Dashboard
-	},
-	componentLoader,
-    resources: adminResourceFactory(db),
-    branding,
-    locale,
-	assets: {
-		styles: ['/login-page.css']
-	}
+    //defaultTheme: dark.id,
+    //availableThemes: [dark, light, noSidebar],
+    dashboard: {
+      component: Components.Dashboard
+    },
+    componentLoader,
+      resources: adminResourceFactory(db),
+      branding,
+      locale,
+    assets: {
+      styles: ['/login-page.css']
+    }
   })
 
   const adminAuthRouter = AdminJSExpress.buildAuthenticatedRouter(

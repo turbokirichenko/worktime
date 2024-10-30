@@ -5,5 +5,22 @@ import Adapter from "@adminjs/sql";
  */
 export const actsResource = (__adapter) => ({
 	resource: __adapter.table('acts'),
-	options: {}
+	options: {
+		editProperties: ['name', 'created_at'],
+		properties: {
+			id: {
+				isVisible: false,
+			}
+		},
+		actions: {
+			bulkDelete: {
+				isVisible: false,
+				isAccessible: false,
+			},
+			delete: {
+				isVisible: false,
+				isAccessible: false,
+			},
+		}
+	}
 })

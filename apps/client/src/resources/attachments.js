@@ -5,5 +5,21 @@ import Adapter from "@adminjs/sql";
  */
 export const attachmentsResource = (__adapter) => ({
 	resource: __adapter.table('attachments'),
-	options: {}
+	options: {
+		properties: {
+			id: {
+				isVisible: false,
+			}
+		},
+		actions: {
+			bulkDelete: {
+				isVisible: false,
+				isAccessible: false,
+			},
+			delete: {
+				isVisible: false,
+				isAccessible: false,
+			},
+		}
+	}
 })
