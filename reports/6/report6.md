@@ -21,6 +21,8 @@
 
 ![ssh-check](./part3.ssh-connected.png)
 
+## Настройка SSL
+
 ### (4) Создаем pg_hba.conf
 
 ![pg hba](./part4.pg_hba.png)
