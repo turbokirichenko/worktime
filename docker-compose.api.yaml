@@ -1,14 +1,14 @@
 version: '3'
 services:
-  api:
-    image: postgrest/postgrest
-    ports:
-      - "3000:3000"
-    environment:
-      PGRST_DB_URI: ${PGRST_DB_URI}
-    networks:
-      localnet:
-        ipv4_address: ${API_ADDRESS}
+  #api:
+  #  image: postgrest/postgrest
+  #  ports:
+  #    - "3000:3000"
+  #  environment:
+  #    PGRST_DB_URI: ${PGRST_DB_URI}
+  #  networks:
+  #    localnet:
+  #      ipv4_address: ${API_ADDRESS}
   db:
     build:
       context: .
@@ -27,6 +27,7 @@ services:
     volumes:
       - ./db/data:/var/lib/postgresql/data
       - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - ./config/pg/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:ro
     networks:
       localnet:
         ipv4_address: ${DB_ADDRESS}
@@ -34,13 +35,23 @@ services:
     image: dpage/pgadmin4
     ports:
       - "5050:80"
+      - "5053:443"
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PWD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
       PGADMIN_LISTEN_ADDRESS: '0.0.0.0'
+      PGADMIN_ENABLE_TLS: true
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     volumes:
       - ./db/pgadmin:/var/lib/pgadmin
+      - ./config/pgadmin/servers.json:/pgadmin4/servers.json
+      # HTTPS certificates mapping. NB! server.crt -> server.cert, server.key -> server.key
+      - ./certs/pgadmin/https/server.crt:/certs/server.cert:ro
+      - ./certs/pgadmin/https/server.key:/certs/server.key:ro
+      # TLS superuser client certificates mapping
+      - ./certs/clients/app_user.crt:/certs/app_user.crt:ro
+      - ./certs/clients/app_user.key:/certs/app_user.key:ro
     restart: unless-stopped
     deploy:
       resources:

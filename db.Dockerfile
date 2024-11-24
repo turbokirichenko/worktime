@@ -9,4 +9,13 @@ RUN echo "$ssh_user:$ssh_password" | chpasswd
 RUN apt update && apt -y install openssh-server
 RUN mkdir -p /var/run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-CMD [ "/usr/sbin/sshd", "-D"]
+
+COPY ./certs/server/server.key /var/lib/postgresql/server.key
+COPY ./certs/server/server.crt /var/lib/postgresql/server.crt
+
+RUN chown 999:999 /var/lib/postgresql/server.key && \
+    chmod 600 /var/lib/postgresql/server.key
+
+RUN ssl=on && \ 
+    ssl_cert_file=/var/lib/postgresql/server.crt && \ 
+    ssl_key_file=/var/lib/postgresql/server.key

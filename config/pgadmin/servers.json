@@ -1,0 +1,17 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "host.docker.internal - app_user",
+            "Group": "Servers",
+            "Host": "host.docker.internal",
+            "Port": 54320,
+            "MaintenanceDB": "wirehouse_db",
+            "Username": "app_user",
+            "ConnectionParameters": {
+                "sslmode": "verify-full",
+                "sslcert": "/certs/app_user.crt",
+                "sslkey": "/certs/app_user.key"
+            }
+        }
+    }
+}
