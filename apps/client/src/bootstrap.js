@@ -31,6 +31,7 @@ export const bootstrap = async () => {
   const db = await new Adapter('postgresql', {
     connectionString: PGRST_DB_URL,
     database: PGRST_DB,
+    ssl: true,
   }).init()
 
   const admin = new AdminJS({
