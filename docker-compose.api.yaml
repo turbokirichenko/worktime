@@ -27,7 +27,8 @@ services:
     volumes:
       - ./db/data:/var/lib/postgresql/data
       - ./db/initdb.d:/docker-entrypoint-initdb.d
-      - ./config/pg/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf:ro
+      # - ./config/pg/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - ./config/pg/postgresql.conf:/etc/postgresql.conf
     networks:
       localnet:
         ipv4_address: ${DB_ADDRESS}
@@ -52,6 +53,9 @@ services:
       # TLS superuser client certificates mapping
       - ./certs/clients/app_user.crt:/certs/app_user.crt:ro
       - ./certs/clients/app_user.key:/certs/app_user.key:ro
+      # TLS worker
+      - ./certs/clients/worker.crt:/certs/worker.crt:ro
+      - ./certs/clients/worker.key:/certs/worker.key:ro
     restart: unless-stopped
     deploy:
       resources:
