@@ -7,6 +7,7 @@ RUN useradd -ms /bin/bash $ssh_user
 RUN echo "$ssh_user:$ssh_password" | chpasswd
 
 RUN apt update && apt -y install openssh-server
+RUN apt install -y postgresql-16-pgaudit
 RUN mkdir -p /var/run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
