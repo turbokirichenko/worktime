@@ -2,3 +2,5 @@
 db/
 certs/
 apps/*/node_modules/
+reports/*/*.png
+reports/*/*.pdf
